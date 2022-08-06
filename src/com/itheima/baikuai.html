@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/baikuai.css">
+<!--    <script type="text/javascript" src="js/baikuai.js"></script>-->
+</head>
+<body>
+    <h2>别踩白块</h2>
+    <div id="score">0</div>
+    <div id="kuai">
+    <div id="main">
+
+    </div>
+
+</div>
+
+
+</body>
+
+
+
+
+</html>
+
+
+<script type="text/javascript">
+
+    function getStyle(el , attr) {
+        return el.currentStyle ? el.currentStyle[attr] : getComputedStyle(el,null)[attr];
+    }
+    var main = document.getElementById('main');
+
+    function createDiv(className) {
+        // body...
+        var div = document.createElement('div');
+        if(className){
+            div.className = className;
+        }
+        return div;
+    }
+
+    var flag = true;
+
+    function createRow() {
+        // Math.floor() 返回小于或等于一个给定数字的最大整数。
+        // Math.round 四舍五入
+        var random = Math.round(Math.random()*3);
+        var row = createDiv('row')
+
+        main.appendChild(row);
+
+        for(var i=0;i<4;i++){
+            if(i == random){
+                row.appendChild(createDiv('black'))
+            }else {
+                row.appendChild(createDiv());
+            }
+        }
+
+
+        if(main.firstChild){
+            main.insertBefore(row, main.firstChild)
+        }else {
+            main.appendChild(row)
+        }
+    }
+
+    for (var i=0;i<4;i++) {
+        // statement
+        createRow();
+    }
+
+    var a = 2;
+    var score = document.getElementById('score');
+    function move() {
+        // body...
+        var top = parseInt(getStyle(main,'top'));
+        main.style.top = top + a + 'px';
+        //alert(top)
+        if(top > 0){
+            createRow();
+            main.style.top = '-100px';
+            main.removeChild(main.lastChild)
+            if (main.lastChild.pass == undefined) {
+                // statement
+                fail();
+            }
+        }
+
+    }
+
+    var clock = setInterval('move()',40);
+
+
+    main.onclick = function(ev){
+        ev.target = ev.target ||ev.serElement;
+        if(flag == false){
+            alert('这位同学，请刷新页面，重开一局')
+        }else if(ev.target.className == ''){
+            fail();
+        }else{
+            var score1 = parseInt(score.innerHTML)
+            score.innerHTML = score1 + 1;
+            ev.target.className = '';
+            ev.target.parentNode.pass = true;
+            if(score1%10==0)
+            {
+                a = a + 3;
+                if(score1/10==1){
+                    document.body.style.backgroundColor='AliceBlue'
+                }else if(score1/10==2){
+                    document.body.style.backgroundColor='AntiqueWhite'
+                }else if(score1/10==3){
+                    document.body.style.backgroundColor='Aquamarine'
+                }else if(score1/10==3){
+                    document.body.style.backgroundColor='Gainsboro'
+                }else if(score1/10==4){
+                    document.body.style.backgroundColor='Khaki'
+                }
+
+            }
+
+
+        }
+    }
+
+    function fail() {
+        // body...
+        alert('这位同学，你输了')
+        clearInterval(clock)
+        flag = false;
+    }
+</script>
