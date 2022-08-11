@@ -1,3 +1,4 @@
+/*
 package com.iteheima;
 
 public class Student {
@@ -48,3 +49,4 @@ public class Student {
         this.address = address;
     }
 }
+*/
